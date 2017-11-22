@@ -1,0 +1,66 @@
+{
+  "_from": "git+https://github.com/esri/cordova-plugin-advanced-geolocation.git",
+  "_id": "cordova-plugin-advanced-geolocation@1.6.1",
+  "_inBundle": false,
+  "_integrity": "sha1-nK3rwgJqR9GmnYeTCfrmE3m/vtg=",
+  "_location": "/cordova-plugin-advanced-geolocation",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/esri/cordova-plugin-advanced-geolocation",
+    "rawSpec": "https://github.com/esri/cordova-plugin-advanced-geolocation",
+    "saveSpec": "git+https://github.com/esri/cordova-plugin-advanced-geolocation.git",
+    "fetchSpec": "https://github.com/esri/cordova-plugin-advanced-geolocation.git",
+    "gitCommittish": "master"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "git+https://github.com/esri/cordova-plugin-advanced-geolocation.git#2c7b11064f167b2e2077b0ef3b908aa0c13d5f53",
+  "_spec": "https://github.com/esri/cordova-plugin-advanced-geolocation",
+  "_where": "/home/udibagas/apps/antrian1",
+  "author": {
+    "name": "Andy Gup. @agup"
+  },
+  "bugs": {
+    "url": "https://github.com/esri/cordova-plugin-advanced-geolocation/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-advanced-geolocation",
+    "platforms": [
+      "android"
+    ]
+  },
+  "deprecated": false,
+  "description": "Android geolocation plugin for both GPS and NETWORK-based location providers. Also can return satellite info, cellular info and cellular network signal strength.",
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=5.0.0"
+    }
+  ],
+  "homepage": "https://github.com/esri/cordova-plugin-advanced-geolocation/blob/master/README.md",
+  "keywords": [
+    "gps",
+    "location",
+    "geolocation",
+    "satellite",
+    "network",
+    "cellular",
+    "triangulation",
+    "signal-strength",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova",
+    "phonegap"
+  ],
+  "license": "Apache-2.0",
+  "name": "cordova-plugin-advanced-geolocation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/esri/cordova-plugin-advanced-geolocation.git"
+  },
+  "version": "1.6.1"
+}

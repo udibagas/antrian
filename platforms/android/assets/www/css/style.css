@@ -1,0 +1,46 @@
+input.ng-invalid {
+    background-color: pink;
+}
+
+input.ng-valid {
+    background-color: lightgreen;
+}
+
+.login-form {
+	width:60%;
+	margin:150px auto 0;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.register-form {
+	width:60%;
+	margin:30px auto 0;
+}
+
+.login-form > p {
+	margin-bottom: 15px;
+}
+
+.danger {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.warning {
+    color: orange;
+}
+
+.info {
+    color: blue;
+}
+
+a {
+    color: #009688;
+    text-decoration: none;
+}

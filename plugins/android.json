@@ -1,0 +1,30 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-spinner-dialog": {
+      "PACKAGE_NAME": "com.nathabuana.reservation"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.nathabuana.reservation"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.nathabuana.reservation"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.nathabuana.reservation"
+    },
+    "cordova-plugin-advanced-geolocation": {
+      "PACKAGE_NAME": "com.nathabuana.reservation"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.nathabuana.reservation"
+    }
+  },
+  "dependent_plugins": {}
+}

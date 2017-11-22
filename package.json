@@ -1,0 +1,27 @@
+{
+  "name": "com.nathabuana.reservation",
+  "version": "1.0.0",
+  "displayName": "Online Reservation",
+  "cordova": {
+    "platforms": [
+      "android"
+    ],
+    "plugins": {
+      "cordova-plugin-spinner-dialog": {},
+      "cordova-plugin-device": {},
+      "cordova-plugin-network-information": {},
+      "cordova-plugin-dialogs": {},
+      "cordova-plugin-advanced-geolocation": {},
+      "cordova-plugin-whitelist": {}
+    }
+  },
+  "dependencies": {
+    "cordova-android": "~6.3.0",
+    "cordova-plugin-advanced-geolocation": "git+https://github.com/esri/cordova-plugin-advanced-geolocation.git",
+    "cordova-plugin-device": "^1.1.7",
+    "cordova-plugin-dialogs": "^1.3.4",
+    "cordova-plugin-network-information": "^1.3.4",
+    "cordova-plugin-spinner-dialog": "^1.3.1",
+    "cordova-plugin-whitelist": "^1.3.3"
+  }
+}

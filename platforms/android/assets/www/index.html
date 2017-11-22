@@ -1,0 +1,384 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src *;style-src 'self' 'unsafe-inline' 'unsafe-eval';script-src 'self' 'unsafe-inline' 'unsafe-eval';"/>
+    <script src="components/loader.js"></script>
+    <script src="lib/angular/angular.min.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
+    <script src="lib/onsenui/js/angular-onsenui.min.js"></script>
+
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- harus paling bawah! jangan dipindah! kalau dipindah style jadi kacau -->
+    <script src="js/app.js"></script>
+
+</head>
+<body>
+    <ons-navigator var="navi" ng-controller="MainController as main">
+    </ons-navigator>
+
+    <ons-template id="main.html">
+        <ons-page ng-controller="AppController as app">
+            <ons-toolbar>
+                <div class="center">{{app.title}}</div>
+            </ons-toolbar>
+
+            <ons-tabbar position="auto">
+                <ons-tab page="reservation.html" icon="ion-clipboard" active></ons-tab>
+                <ons-tab page="location.html" icon="ion-android-pin"></ons-tab>
+                <ons-tab page="notification.html" icon="ion-android-notifications-none" badge="{{notifications.length}}"></ons-tab>
+            </ons-tabbar>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="login.html">
+		<ons-page ng-controller="LoginCtrl as ctrl">
+            <ons-toolbar>
+                <div class="left">
+                </div>
+				<div class="center text-center">Login</div>
+                <div class="right">
+
+                </div>
+			</ons-toolbar>
+
+            <div class="login-form" style="text-align:center;">
+                <div>
+                    <ons-input modifier="material" float placeholder="Email" ng-model="email" required style="width:100%">
+                    </ons-input>
+                </div>
+                <br>
+
+                <div>
+                    <ons-input type="password" modifier="material" float placeholder="Password" ng-model="password" required style="width:100%">
+                    </ons-input>
+                </div>
+                <br>
+                <div>
+                    <ons-button ng-click="ctrl.login()" style="width:100%">
+                        LOGIN
+                    </ons-button>
+                    <br>
+                    <br>
+                    <a href="#" ng-click="navi.pushPage('register.html')">Register</a>
+                </div>
+            </div>
+
+            <br><br>
+            <div class="text-center">
+                {{geolocation.provider}} |
+                {{geolocation.latitude.toFixed(4)}} |
+                {{geolocation.longitude.toFixed(4)}} |
+                {{geolocation.accuracy.toFixed(0)}}
+            </div>
+		</ons-page>
+	</ons-template>
+
+    <ons-template id="register.html">
+		<ons-page ng-controller="RegisterCtrl as ctrl">
+			<ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
+				<div class="center text-center">Register</div>
+                <div class="right">
+
+                </div>
+			</ons-toolbar>
+
+            <div class="register-form">
+                <div>
+                    <ons-input modifier="material" float placeholder="Name" ng-model="name" required style="width:100%">
+                    </ons-input>
+                    <span ng-if="errors.name.length > 0">{{errors.name[0]}}</span>
+                </div>
+                <br>
+
+                <div>
+                    <ons-input modifier="material" float placeholder="Email" ng-model="email" required style="width:100%">
+                    </ons-input>
+                    <span ng-if="errors.email.length > 0">{{errors.email[0]}}</span>
+                </div>
+                <br>
+
+                <div>
+                    <ons-input modifier="material" float placeholder="Phone" ng-model="phone" required style="width:100%">
+                    </ons-input>
+                    <span ng-if="errors.phone.length > 0">{{errors.phone[0]}}</span>
+                </div>
+                <br>
+
+                <div>
+                    <ons-input type="password" modifier="material" float placeholder="Password" ng-model="password" required style="width:100%">
+                    </ons-input>
+                    <span ng-if="errors.password.length > 0">{{errors.password[0]}}</span>
+                </div>
+                <br>
+
+                <div>
+                    <ons-input type="password" modifier="material" float placeholder="Confirm Password" ng-model="password_confirmation" required style="width:100%">
+                    </ons-input>
+                </div>
+                <br>
+                <ons-button ng-click="ctrl.register()" style="width:100%">
+                    REGISTER
+                </ons-button>
+            </div>
+
+            <br><br>
+            <div class="text-center">
+                {{geolocation.provider}} |
+                {{geolocation.latitude.toFixed(4)}} |
+                {{geolocation.longitude.toFixed(4)}} |
+                {{geolocation.accuracy.toFixed(0)}}
+            </div>
+		</ons-page>
+	</ons-template>
+
+    <ons-template id="reservation.html">
+        <ons-page ons-show="app.refreshPage('reservation')" ng-controller="ReservationCtrl">
+            <ons-list>
+                    <ons-list-item modifier="longdivider" tappable ng-repeat="r in reservations" ng-click="app.showReservation(r)">
+                        <div class="left info" style="font-size:1.3em;">
+                            #{{r.no_antrian}}
+                        </div>
+                        <div class="center">
+                            <span class="list-item__title">{{r.location.name}}</span>
+                            <span class="list-item__subtitle">
+                                {{r.date}} &bull;
+                                {{r.jam_layanan}}
+                            </span>
+                        </div>
+                        <div class="right" ng-class="{danger:r.status == 'Open', success:r.status == 'Closed', warning:r.status == 'Cancelled'}">
+                            <small>{{r.status}}</small>
+                        </div>
+                    </ons-list-item>
+                </ons-list>
+                <button ng-click="app.newReservation()" class="fab" style="position:fixed;bottom:10px;right:10px;">
+                    <i class="zmdi zmdi-plus"></i>
+                </button>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="new-reservation.html">
+		<ons-page ng-controller="NewReservationCtrl as ctrl">
+			<ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
+				<div class="center text-center">New Reservation</div>
+                <div class="right">
+                    <ons-toolbar-button ng-click="ctrl.submit()">
+                        <ons-icon icon="ion-android-send"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+			</ons-toolbar>
+            <ul class="list">
+                <li class="list-item">
+                    <div class="list-item__center">
+                        <input type="date" class="text-input" placeholder="Tanggal" ng-model="date" required>
+                        <input type="text" ng-model="lat" ng-value="geolocation.latitude">
+                        <input type="text" ng-model="lng" ng-value="geolocation.longitude">
+                    </div>
+                </li>
+                <li class="list-item list-item--tappable" ng-repeat="l in app.locations">
+                    <div class="list-item__left">
+                        <label class="radio-button">
+                            <input type="radio" id="r{{l.id}}" class="radio-button__input" ng-model="location_id">
+                            <div class="radio-button__checkmark"></div>
+                        </label>
+                    </div>
+                    <label for="r{{l.id}}" class="list-item__center">
+                        <span class="list-item__title">{{l.name}}</span>
+                        <small>
+                            Service Time : {{l.service_time}}min
+                        </small>
+                    </label>
+                </li>
+            </ul>
+		</ons-page>
+	</ons-template>
+
+    <ons-template id="reservation-detail.html">
+		<ons-page ng-controller="DetailReservationCtrl as ctrl">
+            <ons-toolbar>
+				<div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
+				<div class="center">RESERVATION DETAIL</div>
+                <div class="right">
+                    <ons-toolbar-button ng-click="ctrl.cancel()">
+                        <ons-icon icon="ion-android-delete"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+			</ons-toolbar>
+            <ons-list>
+                <ons-list-item modifier="longdivider">
+                    <div class="left"><small>Lokasi:</small></div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.location.name}}</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left"><small>Service Time:</small></div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.location.service_time}} menit</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Tanggal:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.date}}</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Jarak:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.jarak}} km</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Waktu Perjalanan:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.waktu_perjalanan}} menit</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Jam Berangkat:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.jam_berangkat}}</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Jam Layanan:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.jam_layanan}}</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Nomor Antrian:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title">{{reservation.nomor_antrian}}</span>
+                    </div>
+                </ons-list-item>
+                <ons-list-item modifier="longdivider">
+                    <div class="left">
+                        <small>Status:</small>
+                    </div>
+                    <div class="right">
+                        <span class="list-item__title" ng-class="{danger:reservation.status == 'Open', success:reservation.status == 'Closed', warning:reservation.status == 'Cancelled'}">
+                            {{reservation.status}}
+                        </span>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+		</ons-page>
+	</ons-template>
+
+    <ons-template id="location.html">
+        <ons-page ons-show="app.refreshPage('location')" ng-controller="LocationCtrl as ctrl">
+            <ons-list>
+                <ons-list-item modifier="longdivider" tappable ng-repeat="l in locations" ng-click="app.showLocation(l)">
+                    <div class="right" style="text-align:right;">
+                        <small>
+                            20km<br />
+                            30min
+                        </small>
+                    </div>
+                    <span class="list-item__title">{{l.name}}</span>
+                    <span class="list-item__subtitle">
+                        Service Time : {{l.service_time}}min
+                    </span>
+                </ons-list-item>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="location-detail.html">
+        <ons-page ng-controller="DetailLocationCtrl as ctrl">
+            <ons-toolbar>
+                <div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
+				<div class="center text-center">Detail Location</div>
+                <div class="right">
+                    <ons-toolbar-button ng-click="ctrl.submit()">
+                        <ons-icon icon="ion-android-send"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+			</ons-toolbar>
+            <ons-list>
+                <ons-list-item modifier="longdivider">
+                    <div class="right" style="text-align:right;">
+                        <small>20km <br /> 30min</small>
+                    </div>
+                    <span class="list-item__title">{{location.name}}</span>
+                    <span class="list-item__subtitle">
+                        Service Time : {{location.service_time}} menit
+                    </span>
+                </ons-list-item>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="notification.html">
+        <ons-page ons-show="app.refreshPage('notification')" ng-controller="NotificationCtrl as ctrl">
+            <ons-list>
+                <ons-list-item modifier="longdivider" tappable ng-repeat="n in notifications">
+                    <div class="center" ng-click="app.showNotification(n)">
+                        <span class="list-item__title">{{n.data.subject}} </span>
+                        <small>{{n.created_at}}</small><br>
+                        <span class="list-item__subtitle">{{n.data.message}}</span>
+                    </div>
+                    <div class="right">
+                        <ons-icon ng-click="ctrl.delete(n.id)" icon="trash"></ons-icon>
+                    </div>
+                </ons-list-item>
+            </ons-list>
+        </ons-page>
+    </ons-template>
+
+    <ons-template id="notification-detail.html">
+		<ons-page ng-controller="DetailNotificationCtrl as ctrl">
+            <ons-toolbar>
+				<div class="left">
+                    <ons-back-button>Back</ons-back-button>
+                </div>
+				<div class="center">Notification</div>
+                <div class="right">
+                    <ons-toolbar-button ng-click="ctrl.delete()">
+                        <ons-icon icon="ion-android-delete"></ons-icon>
+                    </ons-toolbar-button>
+                </div>
+			</ons-toolbar>
+            <ons-list>
+                <ons-list-item>
+                    <div class="right">
+                        <small>{{notification.created_at}}</small><br>
+                    </div>
+                    <span class="list-item__title">{{notification.data.subject}} </span>
+                    <span class="list-item__subtitle">{{notification.data.message}}</span>
+                </ons-list-item>
+            </ons-list>
+		</ons-page>
+	</ons-template>
+
+</body>
+</html>
